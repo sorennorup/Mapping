@@ -1,7 +1,7 @@
 <?php
 /*this Class is making connection with the podio API 
 just include podio_connect.php in your script and create an podio_connect object and you kan start interacting with Podio*/
-//require_once 'podio-php/PodioAPI.php';
+/* The methods in this class get all the values of the fields in a Podio App and all the field names. 
 require  "podio-php/PodioAPI.php";
 include '../../log/config.php';
 Podio::setup($client_secret,$client_token , array(
