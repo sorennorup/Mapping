@@ -3,7 +3,8 @@
 just include podio_connect.php in your script and create an podio_connect object and you kan start interacting with Podio*/
 //require_once 'podio-php/PodioAPI.php';
 require  "podio-php/PodioAPI.php";
-Podio::setup("uucenter-stamkortoplyninger-5ys1ym","QZNL5S1mPyfGBSNQlF74qNXtaZocsPlSK2Pk6ParXBVh9PAFk7TVIXriFICP8fsP" , array(
+include '../../log/config.php';
+Podio::setup($client_secret,$client_token , array(
   "session_manager" => "PodioSession"
 ));
 
