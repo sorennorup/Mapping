@@ -50,10 +50,16 @@ class Map{
 <html>
 <head>
 <script type="text/javascript" src="mapclasses/objectContrukt.js"> </script>
+<script type="text/javascript" src="mapclasses/polygon.js"> </script>
+ 
+<script> alert(bornholm)</script>
 </head>
-<body onload="initialize(7,'1','googleMap')"> 
-
-
+<body onload="initialize(7,'1','googleMap')">
+      
+<script>
+ 
+</script>     
+          
 <div style  = "position:absolute; z-index: 3; width:200px;
               background-color: grey;margin-top:300px;
               margin-left:300px;height: 200px;padding: 10px; color: #fff;"

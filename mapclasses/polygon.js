@@ -1,178 +1,5 @@
-     
-  //uucenter object
-  //Creates an object of a Googlemap pin
-  //and displayes the fieldvalues from a Podio app in a infowindow
-   var size;
-   var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
-   var pinColor = "336699";
-   var answerd = true;
-
-  var geocoder = new google.maps.Geocoder();
-
-function uuCenter(arr = [], keys = []){
-   
-     
-   this.answer = arr[3];
-   
-
-   this.centerName = arr[0]; // must not be changed
-
-   this.lat = arr[1]; // must not be changed
-
-   this.lng = arr[2]; // must not be changed
-
-   this.propArrCreate = // set the fieldlabels and the fieldvalues in a twodimensional array
-function(){   
-   
-   var propArr = []
- for(var k = 0;k<arr.length-3;k++ ){
-   propArr.push([keys[k+3],arr[k+3]])
-}
-    
-   return propArr
-}
-
-this.space= // set the postion of the centeraddress
-   function(){
-   var pos=new google.maps.LatLng(this.lat,this.lng);
-   
-    return pos;
-}
-    
-this.returnContent = // creates all the content to be displayed in the infoWindow
-function(){
-     
-      var propertyArr = this.propArrCreate();  //get the twodimentional array created by the proparrCreate function  
-    
-      var str="<div style='width:300px;height:auto;font-family:calibri;z-index:-1; font-size: 16px;'>" //some style to display in the infowindow
-      
-       str+="<b>Centernavn: "+ this.centerName+"</b><br/>" // The first field will allways be centername 
-         for(var j = 0; j< propertyArr.length;j++){
-            str+= "<b>" +propertyArr[j][0]+":</b>  "+ propertyArr[j][1]+"<br/>" // inserts the keystring and the valuestring in the content
-   }
-            +"</div>";                  
-     
-      return(str)
-      
-    }
-                    
-this.marker=  // display the pin on the map og sets all the content in the infowindow
-function(map){
-         if (this.answer == "Ja") {
-            pinColor = "477e07" 
-    }
-         else {
-            pinColor = "930a0a"
-    }  
-    
-    var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|"+pinColor);
-    
-    var mark = new google.maps.Marker({
-        icon: pinImage,
-        position:this.space(),
-        url:this.url, 
-    })
-         
-    mark.setAnimation();
-        
-      var infoW = new google.maps.InfoWindow({
-         maxWidth:800,       
-         content: this.returnContent()       
-       
-});
-   var infoW2 = new google.maps.InfoWindow({
-        maxWidth:500,
-        content: " <div style='width:auto;height:auto;font-family:calibri;z-index:-1; font-size: 18px;'>"+ this.centerName+"<p><i>Klik på ikonet nedenfor</i></p></div>"
-           
-      });
-        google.maps.event.addListener(mark, "click", function() {
-            
-        infoW.open(map,mark);
-        infoW2.close();
-                    
-    });
-      
-          
-    
-       google.maps.event.addListener(mark, "mouseover", function(){
-         
-        infoW2.open(map,mark);
-         
-         });
-       
-       google.maps.event.addListener(mark, "mouseout", function(){
-         
-         infoW2.close();
-         
-         });
-     
-        
-      
-        google.maps.event.addListener(mark,"click",function(){
-   
-           //window.location.href=this.url;
-         
-        });
-     
-      
-    return mark
-}
- 
-    
-    
-
-
-}
-// End of the centerObject
-
-
-function createCenterObject(){     
-     
-       var centerObject=new Array();
-       
- for (var i=0;i<centerInfo.length;i++) {       
-                    
-          centerObject[i]= new uuCenter(
-                 centerInfo[i],
-                 keyStr                
-                 );
-          
-          
-           }
-          
-      return centerObject;
-      
-     }
-
- function initialize(zoom,place,mapId)
-{
- 
-  var center = new google.maps.LatLng(56.266427,10.292759);
- 
-  var mapProp = {
-     center:center,
-     zoomControl:false,  
-     scaleControl:false,
-     scrollwheel:false,
-     keyboardShortcuts:false,
-     disableDefaultUI: false,
-     zoom:zoom,
-
-  };  
-     var map=new google.maps.Map(document.getElementById(mapId),mapProp);
-
-     
-    
-//styling the map
-map.setOptions({zoomControl:true, scrollwheel: false ,navigationControl: false,
-    mapTypeControl: true,
-    scaleControl: true,
-    draggable: true,
-    zooom:true,
-    
-    }  
-    );
-  var regionChoords = [
+  
+ regionChoords = [
       
 new google.maps.LatLng(56.047500,12.557373),
 new google.maps.LatLng(55.720923,12.634277),
@@ -189,8 +16,9 @@ new google.maps.LatLng(56.102683,12.480469)
 ]
  
       
-     var bornholm = [
-         new google.maps.LatLng(55.285372,14.765625),
+    var bornholm = [
+        
+new google.maps.LatLng(55.285372,14.765625),
 new google.maps.LatLng(55.235228,15.007324),
 new google.maps.LatLng(55.147488,15.161133),
 new google.maps.LatLng(55.002826,15.040283),
@@ -201,7 +29,7 @@ new google.maps.LatLng(55.197683,14.699707)
       ]
  
  
-     var southDenmark = [
+    var southDenmark = [
      new google.maps.LatLng(55.163181,10.945129),
 new google.maps.LatLng(54.936038,10.844879),
 new google.maps.LatLng(54.734136,10.722656),
@@ -227,7 +55,7 @@ new google.maps.LatLng(55.163181,10.997314)
           
 ]
      
-     var Zeland = [
+    var Zeland = [
       
       new google.maps.LatLng(55.967650,11.777344),
 new google.maps.LatLng(56.029087,11.244507),
@@ -294,7 +122,7 @@ new google.maps.LatLng(55.973798,11.788330)
       
      ]
       
-var  midtjylland = [
+ var midtjylland =  [
             new google.maps.LatLng(56.686408,8.184814),
 new google.maps.LatLng(56.486762,8.074951),
 new google.maps.LatLng(56.346990,8.162842),
@@ -435,7 +263,9 @@ new google.maps.LatLng(56.677356,8.508911),
 new google.maps.LatLng(56.684900,8.473206),
 new google.maps.LatLng(56.677356,8.415527),
 new google.maps.LatLng(56.699982,8.201294)     
-                                 
+                 
+                 
+                 
                  ]
  var northjutland = [
    new google.maps.LatLng(56.672829,9.327393),
@@ -520,69 +350,6 @@ new google.maps.LatLng(56.779818,9.179077),
 new google.maps.LatLng(56.712044,9.201050),
 new google.maps.LatLng(56.678865,9.319153)  
  ]
-       
-       //create the polygon and add a listener to the object
-      createRegion(northjutland,"#07513b",map).addListener('click',function(){show("Region Nordjylland",57.163057,9.860229)});
-      createRegion(midtjylland,"#000",map).addListener('click',function(){show("Region Midtjylland",56.483729,8.618774)});
-      createRegion(regionChoords,"#FF0000",map).addListener('click',function(){show("Region Hovedstaden",55.683779,12.062988)});
-      createRegion(southDenmark,"#336699",map).addListener('click',function(){show("Region Syddanmark",54.835500,9.401550)});
-      createRegion(Zeland,"#000",map).addListener('click',function(){show("Region Sjælland",55.742574,10.969849)});
-      createRegion(regionChoords,"#FF0000",map).addListener('click',function(){show("Region Hovedstaden",55.683779,12.062988)});
-    
- 
-  function show(regionStr,lat,lng){
-  
- infoWindow = new google.maps.InfoWindow;
- 
- var contentString = regionStr;
-
-    infoWindow.setContent(contentString);
-    infoWindow.setPosition(new google.maps.LatLng(lat,lng));
-
-    infoWindow.open(map);
-  }
  
  
-  var myLatLng = {lat: 55.9474566, lng: 12.3772604};
-
-  var marker = new google.maps.Marker({
-    position: myLatLng,
-    map: map,
-    title: 'Hello World!'
-  });
-  
-  map.data.loadGeoJson('hello.json');
-  
- 
- var obj = createCenterObject();
-  
- for(var i=0;i<centerInfo.length;i++){
-          obj[i].marker(map).setMap(map);
-           
-            }         
-  
-              center.marker.setMap(map);
-              
-              function createRegion(pathObj,color,mapObj){
-
-   var region = new google.maps.Polygon({
-    paths: pathObj,
-    strokeColor: color,
-    strokeOpacity: 0.7,
-    strokeWeight: 2,
-    fillColor: color,
-    fillOpacity: 0.35
-  });
-   region.setMap(mapObj)
-   return region
- }
- 
- 
- 
-}
-
-
- 
- 
- 
-    
+      
