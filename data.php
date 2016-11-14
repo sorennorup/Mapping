@@ -3,10 +3,10 @@
 header('Content-Type: application/json');
 
 //database
-define('DB_HOST', "");
-define('DB_USERNAME', '');
-define('DB_PASSWORD', '');
-define('DB_NAME', '');
+define('DB_HOST', "localhost");
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', 'root');
+define('DB_NAME', 'test');
 
 //get connection
 $mysqli = new mysqli(DB_HOST,DB_USERNAME,DB_PASSWORD,DB_NAME);
@@ -14,7 +14,9 @@ $mysqli = new mysqli(DB_HOST,DB_USERNAME,DB_PASSWORD,DB_NAME);
 if(!$mysqli){
 	die("Connection failed: " . $mysqli->error);
 }
-
+else{
+	
+}
 //query to get data from the table
 $query = sprintf("SELECT playerid, score FROM score ORDER BY playerid");
 

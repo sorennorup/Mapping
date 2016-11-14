@@ -633,9 +633,11 @@ new google.maps.LatLng(56.678865,9.319153)
     map: map,
     title: 'Hello World!'
   });
-
+  
+  map.data.loadGeoJson('hello.json');
+  
  
- // var obj = createCenterObject();
+ var obj = createCenterObject();
   
  for(var i=0;i<centerInfo.length;i++){
           obj[i].marker(map).setMap(map);
