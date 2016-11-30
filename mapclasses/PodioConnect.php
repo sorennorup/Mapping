@@ -40,21 +40,25 @@ Podio::setup($client_secret,$client_token , array(
     
     $this->app_id = $app_id;
      
-       $this->allExteral_ids = $this->getAllExternalIds();  
+       //$this->allExteral_ids = $this->getAllExternalIds();
+      // print_r($this->allExteral_ids);
+      $this->allExteral_ids = array('centernavn','lat2','lng3','besvaret','endnu-et-testfelt','vaerdi2');
       
    }
   
  public function getAllFieldValues(){     
       $i=0;
       $items =  PodioItem::filter($this->app_id,array('limit' => 100));
+      
     
     
    foreach ($items['items'] as $item) {
   // Now you can extract values from the individual item. E.g.:
-    
+     
    for($j=0;$j < count($this->allExteral_ids);$j++){
     
      $field = $item->field($this->allExteral_ids[$j]);
+   
      
      if(isset($field))
      {
@@ -96,18 +100,19 @@ Podio::setup($client_secret,$client_token , array(
       // Create external_id array
       $exIds = array();
       // find all the external Ids of the item and put them in the array
-       for($j=0;$j < count($items['items'][0]->fields) ;$j++){
+       for($j=0;$j < 6 ;$j++){
        $exIds[$j] = $items['items'][0]->fields[$j]->external_id;       
       }
       //return the external Id array; 
       return $exIds;
     }
+    // count($items['items'][0]->fields)
   
   public function getAllFieldNames(){
   $items = PodioItem::filter($this->app_id,array('limit' => 1));
   
    $fieldNames = [];
-   for($j=0;$j <count($items['items'][0]->fields);$j++){
+   for($j=0;$j <count($items['items'][0]->fields) ;$j++){
     
    
      $fieldNames[$j] = $items['items'][0]->fields[$j]->label;
@@ -118,7 +123,7 @@ Podio::setup($client_secret,$client_token , array(
    return $fieldNames;
   }
        
-  
+
 }
  
   
