@@ -48,9 +48,7 @@ function(){
       
        str+="<b>Centernavn: "+ this.centerName+"</b><br/>" // The first field will allways be centername 
          for(var j = 0; j< propertyArr.length;j++){
-            if (propertyArr[j][j]!="Besvaret"){
             str+= "<b>" +propertyArr[j][0]+":</b>  "+ propertyArr[j][1]+"<br/>" // inserts the keystring and the valuestring in the content
-            }
    }
             +"</div>";                  
      

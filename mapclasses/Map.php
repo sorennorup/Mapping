@@ -19,8 +19,7 @@ class Map{
         try{
             $podio_data=new PodioConnect($this->appId);          
             $this->exValues = $podio_data->getAllFieldValues();
-            //$this->fieldNames = $podio_data->getAllFieldNames();
-              $this->fieldNames = array("centernavn"," lat2","lng3","Spørgeskema besvaret","Værdi","Værdi2");
+            $this->fieldNames = $podio_data->getAllFieldNames();
             }
             
         catch(PodioError $e) {
@@ -37,49 +36,36 @@ class Map{
             
             $values = $this->exValues;
             
-           
-            
-            
               for($i = 0 ; $i < count($this->exValues); $i++){
-                        if(isset($values[$i][3])){
                 if($values[$i][3] == "Ja"){
                         
                    $count++;
         }
-                        }
         
-       } 
+       }    
 ?>
 <script>    var centerInfo = <?php echo json_encode($values); ?>;
-            var keyStr = <?php echo $keys; ?>; </script>
-  
+            var keyStr = <?php echo $keys; ?>; </script> 
 <!DOCTYPE html>
 <html>
 <head>
-<script type="text/javascript" src="js/objectContrukt.js"> </script>
-<script type="text/javascript" src="js/polygon.js"> </script>
-  <script src="js/jquery.min.js"></script>
-  <script src="js/jquery-ui.min.js"></script>
-<link rel="stylesheet" type="text/css" href = "css/style.css">
+<script type="text/javascript" src="mapclasses/objectContrukt.js"> </script>
+<script type="text/javascript" src="mapclasses/polygon.js"> </script>
+ 
+<script> alert(bornholm)</script>
 </head>
 <body onload="initialize(7,'1','googleMap')">
       
 <script>
- $(function(){
-     $("#draggable-infobox").draggable();       
-            })
+ 
 </script>     
           
-<div class="infoBox" id = draggable-infobox 
-              id = "text-field">Antal besvarelser:<?php echo $count; ?>
-              
- <div class = "row-one">ikke besvaret<div class="canvas red">  </div> </div>
-   
-   <div class = "row-two">  besvaret <div class="canvas green"></div>  </div>
+<div style  = "position:absolute; z-index: 3; width:200px;
+              background-color: grey;margin-top:300px;
+              margin-left:300px;height: 200px;padding: 10px; color: #fff;"
+              id = "text-field">Antal besvarelser:<?php echo $count; ?>  </div>
 
-</div>
-
-<div id="googleMap">  </div>
+<div id="googleMap" style="width:100%;height:600px; ">  </div>
 
          
 </body>
