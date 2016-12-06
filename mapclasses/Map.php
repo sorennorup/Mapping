@@ -39,8 +39,7 @@ class Map{
             
               for($i = 0 ; $i < count($this->exValues); $i++){
                         if(isset($values[$i][3])){
-                if($values[$i][3] == "Ja"){
-                        
+                if($values[$i][3] == "Ja"){                     
                    $count++;
                    }
                }
@@ -107,7 +106,7 @@ class Map{
     $(function(){
             
             $.getJSON("js/uucentre.json",function(data){
-                        console.log(data);
+                        alert(data[0])
             })
             
             
@@ -142,7 +141,7 @@ class Map{
             </script>
             
             <div class="infoBox" id = draggable-infobox 
-            id = "text-field">Antal besvarelser:<?php echo $count; ?> <input type="button" value="clickme" onclick="getKommune('googleMap',uuaarhus_samsoe)" />
+            id = "text-field">Antal besvarelser:<?php echo $count; ?> <input type="button" value="Aarhus Samsø" onclick="getKommune('googleMap',uuaarhus_samsoe)" />
              
             <div class = "row-two">  besvaret <div class="canvas green"></div>  </div>
             <div class = "infoClassRed"><?php echo 56-$count; ?> har ikke svaret</div>

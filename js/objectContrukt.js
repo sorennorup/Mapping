@@ -6,12 +6,13 @@
    var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
    var pinColor = "336699";
    var answerd = true;
+   var mapId;
 
   var geocoder = new google.maps.Geocoder();
 
-function uuCenter(arr = [], keys = []){
+function uuCenter(mapId,arr = [], keys = [] ){
    
-     
+  
    this.answer = arr[3];
    
 
@@ -38,20 +39,29 @@ this.space= // set the postion of the centeraddress
    
     return pos;
 }
+
+this.getKommuner = function(){
+   
+   
+         
+}
     
 this.returnContent = // creates all the content to be displayed in the infoWindow
 function(){
-     
+       
       var propertyArr = this.propArrCreate();  //get the twodimentional array created by the proparrCreate function  
-    
+     
       var str="<div style='width:300px;height:auto;font-family:calibri;z-index:-1; font-size: 16px;'>" //some style to display in the infowindow
       
-       str+="<b>Centernavn: "+ this.centerName+"</b><br/>" // The first field will allways be centername 
+       str+="<b>Centernavn: "+ this.centerName+"</b><br/>"// The first field will allways be centername 
+         
          for(var j = 0; j< propertyArr.length;j++){
             if (propertyArr[j][j]!="Besvaret"){
             str+= "<b>" +propertyArr[j][0]+":</b>  "+ propertyArr[j][1]+"<br/>" // inserts the keystring and the valuestring in the content
+            
             }
-   }
+              
+            }   
             +"</div>";                  
      
       return(str)
@@ -88,10 +98,13 @@ function(map){
            
       });
         google.maps.event.addListener(mark, "click", function() {
+        
             
-        infoW.open(map,mark);
-        infoW2.close();
-                    
+          var uuaarhus_samsoe = ['aarhus.kml','samsoe.kml'];
+          getKommune(mapId,uuaarhus_samsoe);   
+        //infoW.open(map,mark);
+        //infoW2.close();
+               
     });
       
           
@@ -111,8 +124,9 @@ function(map){
         
       
         google.maps.event.addListener(mark,"click",function(){
-   
-           //window.location.href=this.url;
+         
+         
+           
          
         });
      
@@ -128,17 +142,19 @@ function(map){
 // End of the centerObject
 
 
-function createCenterObject(){     
+function createCenterObject(mapId){     
      
        var centerObject=new Array();
        
  for (var i=0;i<centerInfo.length;i++) {       
                     
           centerObject[i]= new uuCenter(
+                 mapId,
                  centerInfo[i],
-                 keyStr                
+                 keyStr
+                 
                  );
-          
+         
           
            }
           
@@ -566,7 +582,7 @@ new google.maps.LatLng(56.678865,9.319153)
   map.data.loadGeoJson('hello.json');
   
  
- var obj = createCenterObject();
+ var obj = createCenterObject(mapId);
   
  for(var i=0;i<centerInfo.length;i++){
           obj[i].marker(map).setMap(map);
