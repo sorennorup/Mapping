@@ -161,7 +161,7 @@ function createCenterObject(){
      zoom:zoom,
 
   };  
-     var map=new google.maps.Map(document.getElementById(mapId),mapProp);
+     var map = new google.maps.Map(document.getElementById(mapId),mapProp);
 
      
     
@@ -174,6 +174,10 @@ map.setOptions({zoomControl:true, scrollwheel: false ,navigationControl: false,
     
     }  
     );
+
+    
+    
+    
   var regionChoords = [
       
 new google.maps.LatLng(56.047500,12.557373),
@@ -530,13 +534,19 @@ new google.maps.LatLng(56.678865,9.319153)
       createRegion(southDenmark,"#336699",map).addListener('click',function(){show("Region Syddanmark",54.835500,9.401550)});
       createRegion(Zeland,"#000",map).addListener('click',function(){show("Region Sjælland",55.742574,10.969849)});
       createRegion(regionChoords,"#FF0000",map).addListener('click',function(){show("Region Hovedstaden",55.683779,12.062988)});
-    
+      
  
-  function show(regionStr,lat,lng){
+ //UU Aarhussamsue
+      //getAarhusSamsoe(map)
+        //getDenmark(map)
+ 
+   
   
- infoWindow = new google.maps.InfoWindow;
+   function show(regionStr,lat,lng){
+  
+   infoWindow = new google.maps.InfoWindow;
  
- var contentString = regionStr;
+    var contentString = regionStr;
 
     infoWindow.setContent(contentString);
     infoWindow.setPosition(new google.maps.LatLng(lat,lng));
@@ -578,7 +588,6 @@ new google.maps.LatLng(56.678865,9.319153)
    region.setMap(mapObj)
    return region
  }
- 
  
  
 }

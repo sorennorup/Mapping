@@ -35,49 +35,49 @@ class Map{
             $keys = json_encode($fields);
             
             
-            $values = $this->exValues;
-            
-           
-            
+            $values = $this->exValues;          
             
               for($i = 0 ; $i < count($this->exValues); $i++){
                         if(isset($values[$i][3])){
                 if($values[$i][3] == "Ja"){
                         
                    $count++;
-        }
-                        }
+                   }
+               }
         
-       } 
+            } 
 ?>
-<script>    var centerInfo = <?php echo json_encode($values); ?>;
+            <script>
+            
+            var centerInfo = <?php echo json_encode($values); ?>;
             var keyStr = <?php echo $keys; ?>; </script>
   
-<!DOCTYPE html>
-<html>
-<head>
-<script type="text/javascript" src="js/objectContrukt.js"> </script>
-<script type="text/javascript" src="js/polygon.js"> </script>
+            <!DOCTYPE html>
+            <html>
+            <head>
+            <script type="text/javascript" src="js/objectContrukt.js"> </script>
+            <script type="text/javascript" src="js/polygon.js"> </script>
 
-  <script src="js/jquery.min.js"></script>
-  <script src="js/jquery-ui.min.js"></script>
-   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<link rel="stylesheet" type="text/css" href = "css/style.css">
-  <script>
+            <script src="js/jquery.min.js"></script>
+            <script src="js/jquery-ui.min.js"></script>
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <script type="text/javascript" src="js/uucentre.js"></script>
+            <link rel="stylesheet" type="text/css" href = "css/style.css">
+            <script>
              google.charts.load('current', {packages: ['corechart']});
-  google.charts.setOnLoadCallback(drawChart);
- function drawChart() {
+            google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
       // Define the chart to be drawn.
-     var data = new google.visualization.DataTable();
-      data.addColumn('string', 'Choice');
-      data.addColumn('number', 'Answers');
-      data.addRows([
-        ['svaret', <?php echo $count ?>],
-        ['ikke besvaret', <?php echo 56-$count;  ?>],
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Choice');
+            data.addColumn('number', 'Answers');
+            data.addRows([
+            ['svaret', <?php echo $count ?>],
+            ['ikke besvaret', <?php echo 56-$count;  ?>],
         
-      ]);
+             ]);
      
-  var options = {'title':'Fordeling af besvarelser',
+            var options = {'title':'Fordeling af besvarelser',
                      'width':400,
                      'height':400,
                      'is3D':true,
@@ -87,68 +87,88 @@ class Map{
                      };     
 
       // Instantiate and draw our chart, passing in some options.
-      var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-      chart.draw(data, options);
+            var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
     }
     
 
             
             
-  </script>
+            </script>
           
-</head>
-<body onload="initialize(7,'1','googleMap')">
+            </head>
+            <body onload="initialize(7,'1','googleMap')">
    
-      <script>
+            <script>
+       
+                
             
             
+    $(function(){
+            
+            $.getJSON("js/uucentre.json",function(data){
+                        console.log(data);
+            })
             
             
-            $(function(){
-     $("#draggable-infobox").draggable();
-     $(".infoClass").hide();
-     $(".infoClassRed").hide();
-     $(".canvas.green").mouseover(function(){
+            //making the infobox dragable
+            $("#draggable-infobox").draggable();
+            
+            //display number off answers when on mouseover
+            $(".infoClass").hide();
+            $(".infoClassRed").hide();
+            $(".canvas.green").mouseover(function(){
             $(".infoClass").show();
             })
-     $(".canvas.green").mouseout(function(){
+            $(".canvas.green").mouseout(function(){
             $(".infoClass").hide();
             })
             
-     $(".canvas.red").mouseover(function(){
+            $(".canvas.red").mouseover(function(){
             $(".infoClassRed").show();
             })
-     $(".canvas.red").mouseout(function(){
+            $(".canvas.red").mouseout(function(){
             $(".infoClassRed").hide();
             })
              })
             
             
-      </script>
+            </script>
 
-            
- 
-<div class="infoBox" id = draggable-infobox 
-              id = "text-field">Antal besvarelser:<?php echo $count; ?>
-             
-                <div class = "row-two">  besvaret <div class="canvas green"></div>  </div>
-    <div class = "infoClassRed"><?php echo 56-$count; ?> har ikke svaret</div>
+            <script>
+            var uuaarhus_samsoe = ['aarhus.kml','samsoe.kml'];
               
-    <div class = "row-one">ikke besvaret<div class="canvas red">  </div> </div>
-    <div class = "infoClass"><?php echo $count; ?> har svaret</div>
-   
+            
+            </script>
+            
+            <div class="infoBox" id = draggable-infobox 
+            id = "text-field">Antal besvarelser:<?php echo $count; ?> <input type="button" value="clickme" onclick="getKommune('googleMap',uuaarhus_samsoe)" />
+             
+            <div class = "row-two">  besvaret <div class="canvas green"></div>  </div>
+            <div class = "infoClassRed"><?php echo 56-$count; ?> har ikke svaret</div>
+              
+            <div class = "row-one">ikke besvaret<div class="canvas red">  </div> </div>
+            <div class = "infoClass"><?php echo $count; ?> har svaret</div>
+           <script>
+            
+     
+            
+           </script>
    
  
 
-</div>
-
-<div id="googleMap">  </div>
-<div id="chart_div"></div>
- 
+            </div>
+    
+            <div id="googleMap">  </div>
+            <div id="chart_div"></div>
+            <script>
+                        
+                
+            </script>
          
-</body>
+            </body>
 
-</script>   
+            </script>   
     <!-- the Api key loadet asyncrounus -->
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnCH6jSQb-BkkDGFriXjaImHSob6YaVNU&callback=initMap">
