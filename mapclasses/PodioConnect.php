@@ -3,12 +3,10 @@
 just include podio_connect.php in your script and create an podio_connect object and you kan start interacting with Podio*/
 /* The methods in this class get all the values of the fields in a Podio App and all the field names. */
 require  "podio-php/PodioAPI.php";
- include '../../log/config.php' ;
-
+include '../../log/config.php';
 Podio::setup($client_secret,$client_token , array(
   "session_manager" => "PodioSession"
 ));
-
 
   class PodioConnect {
    private $allItems=array();
@@ -30,7 +28,7 @@ Podio::setup($client_secret,$client_token , array(
      
      try {
    
-    Podio::authenticate('app', array('app_id' => 12304955, 'app_token' =>"ee33300bef804aa78ef2ab86e40f9816" ));
+    Podio::authenticate('password', array('username' => $username, 'password' =>$password ));
     
    
       }
@@ -42,29 +40,30 @@ Podio::setup($client_secret,$client_token , array(
     
     $this->app_id = $app_id;
      
-    $this->allExteral_ids = $this->getAllExternalIds();
-
+       //$this->allExteral_ids = $this->getAllExternalIds();
+      // print_r($this->allExteral_ids);
+      $this->allExteral_ids = array('centernavn','lat2','lng3','besvaret','endnu-et-testfelt','vaerdi2');
+      
    }
   
- public function getAllFieldValues($view_id){     
+ public function getAllFieldValues(){     
       $i=0;
-      //$items =  PodioItem::filter($this->app_id,array('limit' => 100));
-    $items = PodioItem::filter_by_view( $this->app_id, $view_id , array('limit' => 100) );
-   
+      $items =  PodioItem::filter($this->app_id,array('limit' => 100));
+      
+    
     
    foreach ($items['items'] as $item) {
   // Now you can extract values from the individual item. E.g.:
      
-   for($j = 0; $j < count($this->allExteral_ids)-1; $j++){
-      
+   for($j=0;$j < count($this->allExteral_ids);$j++){
+    
      $field = $item->field($this->allExteral_ids[$j]);
+   
      
      if(isset($field))
      {
-      
-    $this->allValue[$j] = $field->humanized_value();
+     $this->allValue[$j] = $field->humanized_value();
      }
-     
      else{
      $this->allValue[$j] = " ikke besvaret ";
     }
@@ -73,12 +72,8 @@ Podio::setup($client_secret,$client_token , array(
   
  $i++;
 }
+
      return $allItems;
- }
- 
- public function getOptionFieldValues(){
-     $items =  PodioItem::filter($this->app_id,array('limit' => 100));
-     
  }
  
   public function countFields(){
@@ -101,12 +96,11 @@ Podio::setup($client_secret,$client_token , array(
      
      // Get the first item of the app, only 1 item
       $items = PodioItem::filter($this->app_id,array('limit' => 1));
-      
      
       // Create external_id array
       $exIds = array();
       // find all the external Ids of the item and put them in the array
-       for($j=0;$j < count($items['items'][0]->fields) ;$j++){
+       for($j=0;$j < 6 ;$j++){
        $exIds[$j] = $items['items'][0]->fields[$j]->external_id;       
       }
       //return the external Id array; 
