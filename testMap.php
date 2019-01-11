@@ -5,9 +5,10 @@ error_reporting(E_ALL);
 
 require "mapclasses/Map.php";
 
-$myMap2 = new Map(16639783);
+$myMap2 = new Map(12304955,40595816);
 
-$myMap2->createMap();
+
+
 
 
 
