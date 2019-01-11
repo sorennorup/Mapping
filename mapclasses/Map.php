@@ -1,32 +1,66 @@
 <?php
 
 require 'PodioConnect.php';
+require 'Question.php';
 
-class Map{
-            private $app_id;
-           
+class Map extends Question{
+            public $app_id;
+            public $view_id;
+            public $title;
             public $exValues = array();
             public $fieldNames = array();
+            public $podio_data;
+            public $ostemad;
   
-    function __construct($app_id){
-            $this->appId = $app_id;        
-            
-            $this->getPodioData();
-            //$this->createMap();
+   public function __construct($app_id,$view_id){
+            $this->appId = $app_id;
+            $this->view_id = $view_id;
+            $this->podio_data = new PodioConnect($this->appId);
+            $this->fieldNames = $this->podio_data->getAllFieldNames();
    
     }
-    function getPodioData(){
-        try{
-            $podio_data=new PodioConnect($this->appId);          
-            $this->exValues = $podio_data->getAllFieldValues();
-            //$this->fieldNames = $podio_data->getAllFieldNames();
-              $this->fieldNames = array("centernavn"," lat2","lng3","Spørgeskema besvaret","Værdi","Værdi2");
+    
+    function getPodioViewData(){
+        try{     
+            $this->exValues = $this->podio_data->getAllFieldValues($this->view_id);
             }
             
         catch(PodioError $e) {
             echo $e;           
             }       
+    }
+    
+    public function getAnswersItems(){
+            $ans = array();
+            $res = array();
+           try{
+            
+            
+            $this->exValues = $this->podio_data->getAllFieldValues($this->view_id);
+               for($i = 3; $i < count($this->fieldNames)-1; $i++){
+                       '<b>'.$this->fieldNames[$i].'</b><br/>';
+                        for($j = 0; $j < count($this->exValues); $j++){                                             
+                            
+                            $ans[$j] = $this->exValues[$j][$i];           
+                        }
+            
+                        
+                        array_push($res,$ans);
+                       
+               } // end of question
+                 return $res;
+              
             }
+
+            
+        catch(PodioError $e) {
+           return $e;           
+            }        
+    }
+    
+    public function getFieldValues(){
+            return $this->fieldNames;
+    }
     
     public function createMap(){          
             $count = 0;
@@ -56,7 +90,6 @@ class Map{
             <head>
             <script type="text/javascript" src="js/objectContrukt.js"> </script>
             <script type="text/javascript" src="js/polygon.js"> </script>
-
             <script src="js/jquery.min.js"></script>
             <script src="js/jquery-ui.min.js"></script>
             <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -97,6 +130,7 @@ class Map{
           
             </head>
             <body onload="initialize(7,'1','googleMap')">
+                        <input type="text" name="uucenter" id="uucenter"  />
    
             <script>
        
@@ -106,7 +140,7 @@ class Map{
     $(function(){
             
             $.getJSON("js/uucentre.json",function(data){
-                        alert(data[0])
+                       
             })
             
             
@@ -141,18 +175,14 @@ class Map{
             </script>
             
             <div class="infoBox" id = draggable-infobox 
-            id = "text-field">Antal besvarelser:<?php echo $count; ?> <input type="button" value="Aarhus Samsø" onclick="getKommune('googleMap',uuaarhus_samsoe)" />
+            id = "text-field">Antal besvarelser:<?php echo $count; ?> <input type="button" value="Aarhus Samsø" onclick = "backToMap()" />
              
             <div class = "row-two">  besvaret <div class="canvas green"></div>  </div>
             <div class = "infoClassRed"><?php echo 56-$count; ?> har ikke svaret</div>
               
             <div class = "row-one">ikke besvaret<div class="canvas red">  </div> </div>
             <div class = "infoClass"><?php echo $count; ?> har svaret</div>
-           <script>
             
-     
-            
-           </script>
    
  
 
@@ -169,13 +199,15 @@ class Map{
 
             </script>   
     <!-- the Api key loadet asyncrounus -->
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnCH6jSQb-BkkDGFriXjaImHSob6YaVNU&callback=initMap">
-    </script>
+            <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnCH6jSQb-BkkDGFriXjaImHSob6YaVNU&callback=initMap">
+            </script>
 </html>
 
 <?php
 }  
     
 }
+
+
 ?>

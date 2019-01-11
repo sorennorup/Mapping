@@ -46,18 +46,18 @@ this.getKommuner = function(){
          
 }
     
-this.returnContent = // creates all the content to be displayed in the infoWindow
+this.returnContent = // create all the content to be displayed in the infoWindow
 function(){
-       
+        
       var propertyArr = this.propArrCreate();  //get the twodimentional array created by the proparrCreate function  
      
       var str="<div style='width:300px;height:auto;font-family:calibri;z-index:-1; font-size: 16px;'>" //some style to display in the infowindow
       
        str+="<b>Centernavn: "+ this.centerName+"</b><br/>"// The first field will allways be centername 
-         
+        + '<button id = "kommune"> Se området UU centeret dækker</div>'
          for(var j = 0; j< propertyArr.length;j++){
             if (propertyArr[j][j]!="Besvaret"){
-            str+= "<b>" +propertyArr[j][0]+":</b>  "+ propertyArr[j][1]+"<br/>" // inserts the keystring and the valuestring in the content
+            str+= "<b>" +propertyArr[j][0]+":</b>  "+ propertyArr[j][1]+"<br/>" // inserts the fieldtitles and the values in the content
             
             }
               
@@ -92,26 +92,40 @@ function(map){
          content: this.returnContent()       
        
 });
+      
+      google.maps.event.addListener(infoW, 'domready', function() {
+         
+      document.getElementById("kommune").addEventListener('click',function(){
+         var uuaarhus_samsoe = ['aarhus.kml','samsoe.kml'];
+         getKommune(mapId,uuaarhus_samsoe);   
+         });
+         
+    });
+      
+      
    var infoW2 = new google.maps.InfoWindow({
         maxWidth:500,
         content: " <div style='width:auto;height:auto;font-family:calibri;z-index:-1; font-size: 18px;'>"+ this.centerName+"<p><i>Klik på ikonet nedenfor</i></p></div>"
            
       });
+        //Open infoW and close infoW2 when marker is clicked
         google.maps.event.addListener(mark, "click", function() {
         
-            
-          var uuaarhus_samsoe = ['aarhus.kml','samsoe.kml'];
-          getKommune(mapId,uuaarhus_samsoe);   
-        //infoW.open(map,mark);
-        //infoW2.close();
+         
+        infoW.open(map,mark)
+        //this.getElementById("kommune").addEventListener(click,function(){getKommuner(mapId,uuaarhus_samsoe)});
+        infoW2.close();
+        
+      
+      
                
     });
+     
       
-          
-    
+          // open infoW2 when marker is mouseovered
        google.maps.event.addListener(mark, "mouseover", function(){
          
-        infoW2.open(map,mark);
+         infoW2.open(map,mark);
          
          });
        
@@ -120,9 +134,9 @@ function(map){
          infoW2.close();
          
          });
-     
         
-      
+        
+        
         google.maps.event.addListener(mark,"click",function(){
          
          
